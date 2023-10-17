@@ -56,13 +56,12 @@ void open(char *filename[]){
             }
             else putchar(ch);
         }else if(p == 4){
-            if(ch != EOF){
             if (is_empty_line(file) && new_line(ch)){
+                if(ch == EOF){
                 ungetc(ch, file);
-            }
-            else putchar(ch);
-        }
-        }
+                } 
+                }else putchar(ch);
+                }
         
             
 

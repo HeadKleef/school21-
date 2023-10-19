@@ -15,9 +15,9 @@ int is_empty_line(FILE *file) {
   return empty;
 }
 
-void choose_flag(int p, char ch, FILE *file) {
-  int i = 1;
+int choose_flag(int i,int p, char ch, FILE *file) {
   if (p == 1) {
+    
     if (ch == '\n' || ch == 4)
       printf("$\n");
     else
@@ -53,4 +53,5 @@ void choose_flag(int p, char ch, FILE *file) {
     } else
       putchar(ch);
   }
+  return i;
 }

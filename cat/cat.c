@@ -30,12 +30,13 @@ void open_empty(char *filename[]) {
 
 void open(char *filename[]) {
   int p = option(filename[1]);
+  int i = 1;
   char ch;
   FILE *file;
   if (file_exist(filename[2]) == 1) {
     file = fopen(filename[2], "r");
     while ((ch = fgetc(file)) != EOF) {
-      choose_flag(p, ch, file);
+      i = choose_flag(i, p, ch, file);
     }
     fclose(file);
   } else {

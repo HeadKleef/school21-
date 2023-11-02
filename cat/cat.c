@@ -4,49 +4,27 @@
 #include "choose.h"
 #include "options.h"
 
-int file_exist(char *filename) {
-  int chek = 0;
-  FILE *file;
-  file = fopen(filename, "r");
-  if (file) {
-    fclose(file);
-    chek = 1;
-  }
-  return chek;
-}
-void open_empty(char *filename[]) {
-  FILE *file;
-  char c;
-  if (file_exist(filename[2]) == 1) {
-    file = fopen(filename[2], "r");
-    while ((c = fgetc(file)) != EOF) {
-      putchar(c);
-    }
-    fclose(file);
-  } else {
-    printf("wrong filename");
-  }
-}
-
-void open(char *filename[]) {
+void open(char *filename[], int l) {
   int p = option(filename[1]);
   int i = 1;
+ 
   char ch;
+ 
   FILE *file;
-  if (file_exist(filename[2]) == 1) {
-    file = fopen(filename[2], "r");
+  if (file_exist(filename[l]) == 1) {
+    file = fopen(filename[l], "r");
     while ((ch = fgetc(file)) != EOF) {
       i = choose_flag(i, p, ch, file);
     }
     fclose(file);
-  } else {
-    printf("wrong filename");
+  }
+  if (file_exist(filename[l]) == 0 && filename[l] != filename[1]) {
+    printf("\ncat: %s: No such file or directory\n", filename[l]);
   }
 }
 int main(int argc, char *argv[]) {
-  if (argc < 3) {
-    open_empty(argv);
-  } else
-    open(argv);
+  for (int i = 1; i < argc; i++) {
+    open(argv, i);
+  }
   return 0;
 }

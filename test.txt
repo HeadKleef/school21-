@@ -1,9 +1,0 @@
-1
-12
-123
-1234
-abc
-edc
-            the
-and
-AND

@@ -29,7 +29,8 @@ void open_file(char *filename[], flags *option, int file_count, int filename_co,
     if (stream == NULL) exit(EXIT_FAILURE);
     while ((read = getline(&line, &len, stream)) != -1) {
       str_counter++;
-      fill_flags(argc, filename, option, line, opt_e_check);
+      fill_flags(argc, filename, option, line, opt_e_check, file_count,
+                 filename_co);
       comp_counter =
           flags_realise(line, *option, filename[filename_co], file_count,
                         filename[temp_co], str_counter, comp_counter);
@@ -58,19 +59,19 @@ int main(int argc, char *argv[]) {
       c++;
     }
     int n = i;
-    //printf("n = %d\n argc = %d \n file_c = %d \n", n, argc, c);
+    // printf("n = %d\n argc = %d \n file_c = %d \n", n, argc, c);
     while (n < (argc - 1)) {
       open_file(argv, &option, file_count, c, i, argc, opt_e_check);
       n++;
       c++;
     }
   } else if (argc > 1) {
-    option.def = 1;
+    // option.def = 1;
     int file_count = argc - 2;
     int opt_e_check = 0;
     int i = 1;
     int c = 2;
-    //printf("%s", argv[2]);
+    // printf("%s", argv[2]);
     for (int n = 1; n < argc; n++)
       open_file(argv, &option, file_count, c, i, argc, opt_e_check);
   }

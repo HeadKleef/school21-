@@ -4,10 +4,12 @@
 #include "main.h"
 
 void fill_flags(int argc, char *argv[], flags *option, char *line,
-                int opt_e_check) {
+                int opt_e_check, int file_count, int filename_co) {
   char opt;
+
   if (opt_e_check == 1) optind = 1;
-  while ((opt = getopt(argc, argv, "ivclnhfse:")) != -1) {
+  if (file_count > 1 && opt_e_check == 1) print_filename(argv[filename_co]);
+  while ((opt = getopt(argc, argv, "ivclnhfsoe:")) != -1) {
     switch (opt) {
       case 'e':
         option->e = 1;
@@ -37,8 +39,12 @@ void fill_flags(int argc, char *argv[], flags *option, char *line,
       case 'f':
         option->f = 1;
         break;
+      case 'o':
+        option->o = 1;
+        break;
     }
   }
+  if (option == 0) option->def = 1;
   optind = 0;
 }
 

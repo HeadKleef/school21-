@@ -13,6 +13,7 @@ typedef struct {
   int h;
   int s;
   int f;
+  int o;
   int def;
 
 } flags;

@@ -16,5 +16,6 @@ void fill_flags(int argc, char *argv[], flags *option, char *line,
 int flags_count(int argc, char *argv[]);
 void option_e(char *line, char *temp);
 void print_line(char *line);
+void option_f(char *line, char *line_f );
 
 #endif

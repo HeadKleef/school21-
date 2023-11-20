@@ -44,8 +44,6 @@ void fill_flags(int argc, char *argv[], flags *option, char *line,
         break;
     }
   }
-  if (option == 0) option->def = 1;
-  optind = 0;
 }
 
 int flags_count(int argc, char *argv[]) {

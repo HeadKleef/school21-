@@ -66,14 +66,14 @@ int main(int argc, char *argv[]) {
       c++;
     }
   } else if (argc > 1) {
-    // option.def = 1;
+    option.def = 1;
     int file_count = argc - 2;
     int opt_e_check = 0;
     int i = 1;
     int c = 2;
-    // printf("%s", argv[2]);
-    for (int n = 1; n < argc; n++)
+    for (int n = 1; n < file_count + 1; n++) {
       open_file(argv, &option, file_count, c, i, argc, opt_e_check);
+    }
   }
   return 0;
 }

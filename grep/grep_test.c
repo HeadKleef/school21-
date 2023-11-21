@@ -31,6 +31,7 @@ void open_file(char *filename[], flags *option, int file_count, int filename_co,
       str_counter++;
       fill_flags(argc, filename, option, line, opt_e_check, file_count,
                  filename_co);
+      if (option->v && option->f && str_counter == 1) printf("\n");
       comp_counter =
           flags_realise(line, *option, filename[filename_co], file_count,
                         filename[temp_co], str_counter, comp_counter);

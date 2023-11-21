@@ -1,9 +1,5 @@
 #include "libs.h"
 #include "main.h"
-
-#ifndef _FLAGS_RES_H_
-#define _FLAGS_RES_H_
-
 void print_line_num(int str_counter);
 void print_filename(char *filename);
 void option_l(flags option, char *filename);
@@ -18,5 +14,3 @@ int option_e(int i, char *line, char *temp);
 void print_line(char *line);
 int option_f(int file_count, char *filename, int str_counter, flags option,
              int i, char *line, char *line_f);
-
-#endif

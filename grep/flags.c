@@ -6,14 +6,14 @@
 void fill_flags(int argc, char *argv[], flags *option, char *line,
                 int opt_e_check, int file_count, int filename_co) {
   char opt;
-
+  int i = 0;
   if (opt_e_check == 1) optind = 1;
   if (file_count > 1 && opt_e_check == 1) print_filename(argv[filename_co]);
   while ((opt = getopt(argc, argv, "ivclnhfsoe:")) != -1) {
     switch (opt) {
       case 'e':
         option->e = 1;
-        option_e(line, optarg);
+        i = option_e(i, line, optarg);
         break;
       case 'i':
         option->i = 1;

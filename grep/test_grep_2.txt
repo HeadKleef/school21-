@@ -1,0 +1,10 @@
+
+#include "libs.h"
+#include "main.h"
+
+#ifndef _FLAGS_RES_H_
+#define _FLAGS_RES_H_
+
+void option_l(flags option, char *filename);
+
+#endif

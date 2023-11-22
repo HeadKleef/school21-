@@ -13,8 +13,9 @@ void open(char *filename[], int l) {
   FILE *file;
   if (file_exist(filename[l]) == 1) {
     file = fopen(filename[l], "r");
-    while ((ch = fgetc(file)) != EOF) {
-      i = choose_flag(i, p, ch, file);
+    while (!feof(file) && !ferror(file)) {
+      ch = fgetc(file);
+      if (ch != EOF) i = choose_flag(i, p, ch, file);
     }
     fclose(file);
   }

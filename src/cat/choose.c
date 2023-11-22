@@ -13,9 +13,9 @@ int is_empty_line(FILE *file) {
   return empty;
 }
 void option_e(char ch) {
-  if (ch == '\n')
-    printf("$\n");
-  else
+  if (ch == '\n') {
+    if (ch != EOF) printf("$\n");
+  } else
     option_v(ch);
 }
 int option_n(int i, char ch) {
@@ -31,26 +31,31 @@ int option_n(int i, char ch) {
   return i;
 }
 int option_b(int i, char ch, FILE *file) {
-  if (i == 1) {
+  if (i == 1 && ch != '\n') {
     printf("%6d\t", i);
     i++;
   }
-  if (ch == '\n' && !is_empty_line(file)) {
+  if (ch == EOF) {
+    ungetc(ch, file);
+  }
+  if (ch != EOF && ch != '\0' && ch == '\n' && !is_empty_line(file)) {
     printf("\n%6d\t", i);
     i++;
-  } else
+  } else if (ch != EOF)
     putchar(ch);
+
   return i;
 }
 int option_s(char ch, FILE *file, int i) {
   if (is_empty_line(file) && new_line(ch)) {
     i++;
-    if (ch == EOF) {
-      ungetc(ch, file);
+    if (i == 3) {
+      printf("\n");
     }
-    if (i > 3) printf("\n");
-  } else
+  } else {
+    i = 1;
     putchar(ch);
+  }
   return i;
 }
 
@@ -62,14 +67,14 @@ void option_t(char ch) {
 }
 void option_T(char ch) {
   if (is_tab(ch)) {
-    printf("^I");
-  } else
+    if (ch != EOF) printf("^I");
+  } else if (ch != EOF)
     putchar(ch);
 }
 void option_E(char ch) {
   if (ch == '\n')
     printf("$\n");
-  else
+  else if (ch != EOF)
     putchar(ch);
 }
 
@@ -93,25 +98,25 @@ void option_v(unsigned char ch) {
 int choose_flag(int i, int p, char ch, FILE *file) {
   switch (p) {
     case 0:
-      putchar(ch);
+      if (ch != EOF) putchar(ch);
       break;
     case 1:
-      option_e(ch);
+      if (ch != EOF) option_e(ch);
       break;
     case 2:
-      i = option_n(i, ch);
+      if (ch != EOF) i = option_n(i, ch);
       break;
     case 3:
-      i = option_b(i, ch, file);
+      if (ch != EOF) i = option_b(i, ch, file);
       break;
     case 4:
-      i = option_s(ch, file, i);
+      if (ch != EOF) i = option_s(ch, file, i);
       break;
     case 5:
-      option_t(ch);
+      if (ch != EOF) option_t(ch);
       break;
     case 6:
-      option_v(ch);
+      if (ch != EOF) option_v(ch);
       break;
     case 7:
       option_T(ch);

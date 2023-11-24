@@ -25,6 +25,7 @@ patterns=(
     "fi"
     "main"
     "argc"
+  
 
 )
 
@@ -32,11 +33,11 @@ patterns=(
 for (( i = 0; i < 7 ; i++)); do
     for (( n = 0; n < 6 ; n++)); do
         for (( l = 0; l < 6; l++)) do
-            ./s21_grep ${flags[i]} ${flags[n]} ${patterns[l]} flags.h > test_grep_2.txt
+            ./s21_grep ${flags[i]} ${flags[n]} ${patterns[l]} flags.h> test_grep_2.txt
              grep ${flags[i]} ${flags[n]}  ${patterns[l]} flags.h > test_grep_3.txt
             
 
-        if  cmp test_grep_2.txt test_grep_3.txt; #&& valgrind --track-origins=yes -q ./s21_grep ${flags[i]}  ${patterns[n]} flags.h > log.txt ;
+        if  cmp test_grep_2.txt test_grep_3.txt; # && valgrind --track-origins=yes -q ./s21_grep ${flags[i]}  ${patterns[n]} flags.h > log.txt ;
         then 
             rm test_grep_2.txt
             rm test_grep_3.txt
@@ -50,11 +51,11 @@ for (( i = 0; i < 7 ; i++)); do
         done
 done
 
-for (( i = 0; i < 2 ; i++)); do
-  ./s21_grep ${flags[i]}f  pat_test.txt flags.h > test_grep_2.txt
-     grep ${flags[i]}f  pat_test.txt flags.h > test_grep_3.txt
+for (( i = 0; i < 5 ; i++)); do
+  ./s21_grep ${flags[i]} -f  pat_test.txt flags.h > test_grep_2.txt
+     grep ${flags[i]} -f  pat_test.txt flags.h > test_grep_3.txt
 
- if  cmp test_grep_2.txt test_grep_3.txt; # && valgrind --track-origins=yes -q ./s21_grep ${flags[i]}f  pat_test.txt flags.h > log.txt ;
+ if  cmp test_grep_2.txt test_grep_3.txt; # && valgrind --track-origins=yes -q ./s21_grep  -f  pat_test.txt flags.h > log.txt ;
         then 
             echo "flags : ${flags[i]} -f  result :SUCCESS " 
             (( GREP_FUNC_SUCCESS++ ))
@@ -69,7 +70,7 @@ do
   ./s21_grep -e $i  -e include flags.h > test_grep_2.txt
      grep  -e $i -e include flags.h > test_grep_3.txt
 
- if  cmp test_grep_2.txt test_grep_3.txt; #&& valgrind --track-origins=yes -q ./s21_grep ${flags[i]}  ${patterns[n]} flags.h > log.txt ;
+ if  cmp test_grep_2.txt test_grep_3.txt; # && valgrind --track-origins=yes -q ./s21_grep -e int  flags.h > log.txt ;
         then 
             echo "flag : -e pattern: $i result :SUCCESS " 
             (( GREP_FUNC_SUCCESS++ ))

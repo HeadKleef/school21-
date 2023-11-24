@@ -47,9 +47,9 @@ int option_f(int file_count, char *filename, flags option, int str_counter,
     if (!option.i) regcomp(&re_temp_f, temp_line_f, REG_EXTENDED);
     reg = regexec(&re_temp_f, line, 0, NULL, 0);
     if (reg == 0) {
-      if (file_count > 1) print_filename(filename);
-      if (option.n) print_line_num(str_counter);
       if (!option.l && !option.c && !option.o) {
+        if (file_count > 1 && !option.h) print_filename(filename);
+        if (option.n) print_line_num(str_counter);
         printf("%s", line);
       }
       arr[0]++;
@@ -97,31 +97,47 @@ int flags_realise(char *line, flags option, char *filename, int file_count,
                   char *temp, int str_counter, int comp_counter) {
   regex_t re_temp;
   regcomp(&re_temp, temp, REG_EXTENDED);
-  if (file_count > 1 && !option.h && !option.c && !option.l && !option.v) {
+  if (file_count > 1 && !option.h && !option.i && !option.c && !option.l &&
+      !option.v && !option.o && !option.n) {
     if (regexec(&re_temp, line, 0, NULL, 0) == 0) print_filename(filename);
+  }
+  if (option.l) {
+    int reg = 0;
+    reg = regexec(&re_temp, line, 0, NULL, 0);
+    if (reg == 0 && !option.v) comp_counter++;
+    if (reg == 1 && option.v) comp_counter++;
   }
   if (option.e) {
     if (regexec(&re_temp, line, 0, NULL, 0) == 0) print_line(line);
   }
-  if (option.h && !option.n && !option.i && !option.v && !option.c) {
-    if (regexec(&re_temp, line, 0, NULL, 0) == 0) print_line(line);
+  if (option.h && !option.n && !option.i && !option.v && !option.c &&
+      !option.o && !option.l) {
+    if (regexec(&re_temp, line, 0, NULL, 0) == 0) {
+      comp_counter++;
+      print_line(line);
+    }
   }
   if (option.i && !option.c && !option.v && !option.n && !option.l &&
       !option.o) {
     int change_count = 0;
     change_count = change_reg(line, temp);
     if (change_count == 1) {
+      comp_counter++;
+      if (file_count > 1 && !option.h) print_filename(filename);
       print_line(line);
     }
   }
   if (option.n && !option.v && !option.o) {
     if (option.i && !option.o) {
       if (change_reg(line, temp) == 1) {
+        if (file_count > 1 && !option.h) print_filename(filename);
         print_line_num(str_counter);
         print_line(line);
       }
     } else if (!option.i && !option.c && !option.l && !option.o) {
       if (regexec(&re_temp, line, 0, NULL, 0) == 0) {
+        if (file_count > 1 && !option.h) print_filename(filename);
+        comp_counter++;
         print_line_num(str_counter);
         print_line(line);
       }
@@ -132,7 +148,7 @@ int flags_realise(char *line, flags option, char *filename, int file_count,
       if (change_reg(line, temp) == 1)
         line = NULL;
       else {
-        if (file_count > 1) print_filename(filename);
+        if (file_count > 1 && !option.h) print_filename(filename);
         if (line != NULL) print_line(line);
       }
     }
@@ -140,12 +156,12 @@ int flags_realise(char *line, flags option, char *filename, int file_count,
       if (regexec(&re_temp, line, 0, NULL, 0) == 0)
         line = NULL;
       else if (option.n) {
-        if (file_count > 1) print_filename(filename);
+        if (file_count > 1 && !option.h) print_filename(filename);
         print_line_num(str_counter);
         print_line(line);
       } else if (!option.l) {
-        if (regexec(&re_temp, line, 0, NULL, 0) != 0) {
-          if (file_count > 1) print_filename(filename);
+        if (regexec(&re_temp, line, 0, NULL, 0) == 1) {
+          if (file_count > 1 && !option.h) print_filename(filename);
           print_line(line);
         }
       }
@@ -171,6 +187,9 @@ int flags_realise(char *line, flags option, char *filename, int file_count,
       regcomp(&re_icase_temp, temp, REG_ICASE);
       re_temp = re_icase_temp;
     }
+    if (file_count > 1 && regexec(&re_temp, line, 1, &match, 0) == 0 &&
+        !option.h)
+      print_filename(filename);
     int strlen_count = strlen(line);
     while (count < strlen_count) {
       if (regexec(&re_temp, line, 1, &match, 0) == 0) {
@@ -185,8 +204,14 @@ int flags_realise(char *line, flags option, char *filename, int file_count,
       count++;
     }
   }
+  if (option.s && !option.h && !option.v && !option.n && !option.i &&
+      !option.l && !option.c)
+    option.def = 1;
   if (option.def) {
-    if (regexec(&re_temp, line, 0, NULL, 0) == 0) print_line(line);
+    if (regexec(&re_temp, line, 0, NULL, 0) == 0) {
+      comp_counter++;
+      print_line(line);
+    }
   }
   if (option.f) {
     int arr[2];
@@ -206,6 +231,7 @@ int flags_realise(char *line, flags option, char *filename, int file_count,
       }
 
       if (arr[1] == str_counter_for_v && arr[0] < 1) {
+        if (file_count > 1 && !option.h) print_filename(filename);
         print_line(line);
       }
 

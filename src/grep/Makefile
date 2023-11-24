@@ -1,12 +1,12 @@
 CC = gcc
 CFLAGS = -g -Wall -Werror -Wextra  
-GREP =grep_test.c
+GREP =grep.c
 OPT= flags_res.c
-FLAGS = flags.c
+
 NAME =s21_grep
 
 all:
-	$(CC) $(CFLAGS) $(GREP) $(FLAGS)  $(OPT) -o $(NAME)
+	$(CC) $(CFLAGS) $(GREP)   $(OPT) -o $(NAME)
 
 s21_grep:
 	

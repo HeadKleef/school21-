@@ -38,7 +38,7 @@ cat $i test_cat_1.txt > test_cat_3.txt
  
 
 
-if  cmp   test_cat_2.txt test_cat_3.txt:#  && valgrind --track-origins=yes -q ./../cat/s21_cat $i test_cat_1.txt > log.txt ;
+if  cmp   test_cat_2.txt test_cat_3.txt; #  && valgrind --track-origins=yes -q ./../cat/s21_cat $i test_cat_1.txt > log.txt ;
 then 
     echo "flag :$i result : SUCCESS " 
     (( CAT_FUNC_SUCCESS++ ))
@@ -112,8 +112,8 @@ patterns=(
 for (( i = 0; i < 7 ; i++)); do
     for (( n = 0; n < 6 ; n++)); do
         for (( l = 0; l < 6; l++)) do
-            ./../grep/s21_grep ${flags[i]} ${flags[n]} ${patterns[n]} ../grep/flags.h> test_grep_2.txt
-             grep ${flags[i]} ${flags[n]}  ${patterns[n]} ../grep/flags.h > test_grep_3.txt
+            ./../grep/s21_grep ${flags[i]} ${flags[n]} ${patterns[l]} ../grep/flags.h> test_grep_2.txt
+             grep ${flags[i]} ${flags[n]}  ${patterns[l]} ../grep/flags.h > test_grep_3.txt
             
 
         if  cmp test_grep_2.txt test_grep_3.txt; # && valgrind --track-origins=yes -q ./../grep/s21_grep ${flags[i]}  ${patterns[n]} ../grep/flags.h > log.txt ;
@@ -134,7 +134,7 @@ for (( i = 0; i < 5 ; i++)); do
   ./../grep/s21_grep ${flags[i]} -f  pat_test.txt ../grep/flags.h > test_grep_2.txt
      grep ${flags[i]} -f  pat_test.txt ../grep/flags.h > test_grep_3.txt
 
- if  cmp test_grep_2.txt test_grep_3.txt:# && valgrind --track-origins=yes -q ./../grep/s21_grep  -f  pat_test.txt ../grep/flags.h > log.txt ;
+ if  cmp test_grep_2.txt test_grep_3.txt; # && valgrind --track-origins=yes -q ./../grep/s21_grep  -f  pat_test.txt ../grep/flags.h > log.txt ;
         then 
             echo "flags : ${flags[i]} -f  result :SUCCESS " 
             (( GREP_FUNC_SUCCESS++ ))
@@ -149,7 +149,7 @@ do
   ./../grep/s21_grep -e $i  -e include ../grep/flags.h > test_grep_2.txt
      grep  -e $i -e include ../grep/flags.h > test_grep_3.txt
 
- if  cmp test_grep_2.txt test_grep_3.txt;#  && valgrind --track-origins=yes -q ./../grep/s21_grep -e $i  -e include ../grep/flags.h > log.txt ;
+ if  cmp test_grep_2.txt test_grep_3.txt; #  && valgrind --track-origins=yes -q ./../grep/s21_grep -e $i  -e include ../grep/flags.h > log.txt ;
         then 
             echo "flag : -e pattern: $i result :SUCCESS " 
             (( GREP_FUNC_SUCCESS++ ))

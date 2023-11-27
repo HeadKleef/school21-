@@ -112,8 +112,8 @@ patterns=(
 for (( i = 0; i < 7 ; i++)); do
     for (( n = 0; n < 6 ; n++)); do
         for (( l = 0; l < 6; l++)) do
-            ./../grep/s21_grep ${flags[i]} ${flags[n]} ${patterns[l]} ../grep/flags.h> test_grep_2.txt
-             grep ${flags[i]} ${flags[n]}  ${patterns[l]} ../grep/flags.h > test_grep_3.txt
+            ./../grep/s21_grep ${flags[i]} ${flags[n]} ${patterns[l]} ../grep/grep.c> test_grep_2.txt
+             grep ${flags[i]} ${flags[n]}  ${patterns[l]} ../grep/grep.c > test_grep_3.txt
             
 
         if  cmp test_grep_2.txt test_grep_3.txt; # && valgrind --track-origins=yes -q ./../grep/s21_grep ${flags[i]}  ${patterns[n]} ../grep/flags.h > log.txt ;
@@ -131,8 +131,8 @@ for (( i = 0; i < 7 ; i++)); do
 done
 
 for (( i = 0; i < 5 ; i++)); do
-  ./../grep/s21_grep ${flags[i]} -f  pat_test.txt ../grep/flags.h > test_grep_2.txt
-     grep ${flags[i]} -f  pat_test.txt ../grep/flags.h > test_grep_3.txt
+  ./../grep/s21_grep ${flags[i]} -f  pat_test.txt ../grep/grep.c > test_grep_2.txt
+     grep ${flags[i]} -f  pat_test.txt ../grep/grep.c > test_grep_3.txt
 
  if  cmp test_grep_2.txt test_grep_3.txt; # && valgrind --track-origins=yes -q ./../grep/s21_grep  -f  pat_test.txt ../grep/flags.h > log.txt ;
         then 
@@ -146,8 +146,8 @@ for (( i = 0; i < 5 ; i++)); do
 
 for i in "${patterns[@]}"
 do
-  ./../grep/s21_grep -e $i  -e include ../grep/flags.h > test_grep_2.txt
-     grep  -e $i -e include ../grep/flags.h > test_grep_3.txt
+  ./../grep/s21_grep -e $i  -e include ../grep/grep.c > test_grep_2.txt
+     grep  -e $i -e include ../grep/grep.c > test_grep_3.txt
 
  if  cmp test_grep_2.txt test_grep_3.txt; #  && valgrind --track-origins=yes -q ./../grep/s21_grep -e $i  -e include ../grep/flags.h > log.txt ;
         then 

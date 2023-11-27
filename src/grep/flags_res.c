@@ -154,7 +154,8 @@ int flags_realise(char *line, flags option, char *filename, int file_count,
     }
     if (!option.i) {
       if (regexec(&re_temp, line, 0, NULL, 0) == 0)
-        line = NULL;
+        // line = NULL;
+        comp_counter = 1;
       else if (option.n) {
         if (file_count > 1 && !option.h) print_filename(filename);
         print_line_num(str_counter);
@@ -163,6 +164,7 @@ int flags_realise(char *line, flags option, char *filename, int file_count,
         if (regexec(&re_temp, line, 0, NULL, 0) == 1) {
           if (file_count > 1 && !option.h) print_filename(filename);
           print_line(line);
+          comp_counter = 0;
         }
       }
     }

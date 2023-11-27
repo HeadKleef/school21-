@@ -61,13 +61,16 @@ int flags_count(int argc, char *argv[]) {
 
 int check_file_exist(char *filename) {
   int chek = 0;
-  FILE *file = NULL;
-  file = fopen(filename, "r");
-  if (file) {
-    fclose(file);
-    chek = 1;
+  if (filename != NULL) {
+    FILE *file = fopen(filename, "r");
+    if (file) {
+      fclose(file);
+      chek = 1;
+    }
+    if (!file) {
+      chek = 0;
+    }
   }
-  if (!file) chek = 0;
   return chek;
 }
 int open_file(char *filename[], flags *option, int file_count, int filename_co,
@@ -81,6 +84,7 @@ int open_file(char *filename[], flags *option, int file_count, int filename_co,
   if (check_file_exist(filename[filename_co]) == 1) {
     stream = fopen(filename[filename_co], "r");
     if (stream == NULL) exit(EXIT_FAILURE);
+
     while ((read = getline(&line, &len, stream)) != -1) {
       str_counter++;
       fill_flags(argc, filename, option, line, opt_e_check, file_count,
@@ -95,19 +99,19 @@ int open_file(char *filename[], flags *option, int file_count, int filename_co,
     if (option->l && comp_counter > 0) {
       option_l(*option, filename[filename_co]);
     }
-
-    free(line);
-    fclose(stream);
-    if ((temp_co - 1 == 1) && option->v && (filename_co > (temp_co + 1))) {
+    if (option->v && !option->l && !option->c && file_count == 1) {
       printf("\n");
     }
-    if ((temp_co - 1 != 1) && option->v && !option->l && !option->c &&
-        filename_co > (temp_co || (temp_co + 1)))
+    if (option->v && (comp_counter == 0 || (comp_counter == 1 && option->n)) &&
+        !option->l && !option->c && file_count > 1)
       printf("\n");
-
+    free(line);
+    fclose(stream);
   } else if (!option->s && filename[filename_co] != NULL) {
-    printf("grep: %s: No such file or directory\n", filename[filename_co]);
+    fprintf(stderr, "grep: %s: No such file or directory\n",
+            filename[filename_co]);
   }
+
   return comp_counter;
 }
 int main(int argc, char *argv[]) {

@@ -1,5 +1,0 @@
-
--v  1.txt 2.txt 3.txt
--v abc 1.txt 2.txt 3.txt
--v "" 1.txt 2.txt 3.txt
--n -f pattern.txt 1.txt 2.txt 3.txt

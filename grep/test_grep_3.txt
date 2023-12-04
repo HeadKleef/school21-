@@ -1,6 +1,0 @@
-
-#ifndef _FLAGS_RES_H_
-#define _FLAGS_RES_H_
-
-
-#endif

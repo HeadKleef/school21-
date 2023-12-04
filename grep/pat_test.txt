@@ -1,4 +1,0 @@
-int
-void
-i.....e
-f...s

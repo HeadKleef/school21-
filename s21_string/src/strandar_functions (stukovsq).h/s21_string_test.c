@@ -67,14 +67,6 @@ int main() {
   else
     printf("strchr test : \033[0;31mfailed\033[0m\n");
 
-  // // strcmp test
-  // int strcmp_test_ret_1 = s21_strcmp(str_test_1, str_test_2);
-  // int strcmp_test_ret_2 = strcmp(str_test_1, str_test_2);
-  // if (strcmp_test_ret_1 == strcmp_test_ret_2)
-  //   printf("strcmp test : \033[0;32mdone\033[0m \n");
-  // else
-  //   printf("strcmp test : \033[0;31mfailed\033[0m\n");
-
   // strncmp test
   int strncmp_test_ret_1 = s21_strncmp(str_test_1, str_test_2, n);
   int strncmp_test_ret_2 = strncmp(str_test_1, str_test_2, n);
@@ -82,15 +74,6 @@ int main() {
     printf("strncmp test : \033[0;32mdone\033[0m \n");
   else
     printf("strncmp test : \033[0;31mfailed\033[0m\n");
-
-  // // strcpy test
-  // char *strcpy_test_ret_1 = s21_strcpy(str_test_1, str_test_2);
-  // char *strcpy_test_ret_2 = strcpy(str_test_1, str_test_2);
-  // if (strstr(strcpy_test_ret_1, strcpy_test_ret_2) != 0 &&
-  //     strcmp(strcpy_test_ret_1, strcpy_test_ret_2) == 0)
-  //   printf("strcpy test : \033[0;32mdone\033[0m \n");
-  // else
-  //   printf("strcpy test : \033[0;31mfailed\033[0m\n");
 
   // strncpy test
   char *strncpy_test_ret_1 = s21_strncpy(str_test_1, str_test_2, n);
@@ -119,6 +102,24 @@ int main() {
   else
     printf("strlen test : \033[0;31mfailed\033[0m\n");
 
+  // strpbrk test
+  char *strpbrk_test_ret_1 = s21_strpbrk(str_test_1, str_test_2);
+  char *strpbrk_test_ret_2 = strpbrk(str_test_1, str_test_2);
+  if (strstr(strpbrk_test_ret_1, strpbrk_test_ret_2) != 0 &&
+      strcmp(strpbrk_test_ret_1, strpbrk_test_ret_2) == 0)
+    printf("strpbrk test : \033[0;32mdone\033[0m \n");
+  else
+    printf("strpbrk test : \033[0;31mfailed\033[0m\n");
+
+  // strrchr test
+  char *strrchr_test_ret_1 = s21_strrchr(strchr_test, nb);
+  char *strrchr_test_ret_2 = strrchr(strchr_test, nb);
+  if (strstr(strrchr_test_ret_1, strrchr_test_ret_2) != 0 &&
+      strcmp(strrchr_test_ret_1, strrchr_test_ret_2) == 0)
+    printf("strrchr test : \033[0;32mdone\033[0m \n");
+  else
+    printf("strrchr test : \033[0;31mfailed\033[0m\n");
+
   // strstr test
   char strstr_test_arr[10] = "1289fyukb";
   char strstr_test_arr_2[10] = "89";
@@ -131,3 +132,27 @@ int main() {
     printf("strstr test : \033[0;31mfailed\033[0m\n");
   return 0;
 }
+
+
+// char strtok_test[30] = "abc/abc/acb/abc/acb";
+// char *strtok_ret_test_1 = strtok(strtok_test, "/");
+// while (strtok_ret_test_1 != NULL) {
+//   printf("%s\n", strtok_ret_test_1);
+// }
+
+// // strcmp test
+// int strcmp_test_ret_1 = s21_strcmp(str_test_1, str_test_2);
+// int strcmp_test_ret_2 = strcmp(str_test_1, str_test_2);
+// if (strcmp_test_ret_1 == strcmp_test_ret_2)
+//   printf("strcmp test : \033[0;32mdone\033[0m \n");
+// else
+//   printf("strcmp test : \033[0;31mfailed\033[0m\n");
+
+// // strcpy test
+// char *strcpy_test_ret_1 = s21_strcpy(str_test_1, str_test_2);
+// char *strcpy_test_ret_2 = strcpy(str_test_1, str_test_2);
+// if (strstr(strcpy_test_ret_1, strcpy_test_ret_2) != 0 &&
+//     strcmp(strcpy_test_ret_1, strcpy_test_ret_2) == 0)
+//   printf("strcpy test : \033[0;32mdone\033[0m \n");
+// else
+//   printf("strcpy test : \033[0;31mfailed\033[0m\n");

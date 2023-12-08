@@ -29,7 +29,7 @@ void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
   unsigned char *dest_clone = (unsigned char *)dest;
   const unsigned char *src_clone = (const unsigned char *)src;
   s21_size_t i = 0;
-  for (i = 0; i <= n; i++) {
+  for (; i <= n; i++) {
     dest_clone[i] = src_clone[i];
   }
   return dest_clone;
@@ -65,14 +65,6 @@ char *s21_strchr(const char *str, int c) {
   return result;
 }
 
-// int s21_strcmp(const char *str1, const char *str2) {
-//   while (*str1 && (*str1 == *str2)) {
-//     str1++;
-//     str2++;
-//   }
-//   return *str1 - *str2;
-// }
-
 int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
   s21_size_t i = 0;
   while (*str1 && (*str1 == *str2) && i < n) {
@@ -83,16 +75,9 @@ int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
   return *str1 - *str2;
 }
 
-// char *s21_strcpy(char *dest, const char *src) {
-//   s21_size_t i = 0, slen = s21_strlen(src);
-//   for (i = 0; i <= slen; i++) {
-//     dest[i] = src[i];
-//   }
-//   return dest;
-// }
 char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
   s21_size_t i = 0, slen = s21_strlen(src);
-  for (i = 0; i <= slen && i < n; i++) {
+  for (; i <= slen && i < n; i++) {
     dest[i] = src[i];
   }
   return dest;
@@ -115,9 +100,20 @@ s21_size_t s21_strlen(const char *str) {
   return i;
 }
 
-// char s21_strpbrk(){}
+char *s21_strpbrk(const char *str1, const char *str2) {
+  return (char *)str1 + s21_strcspn(str1, str2);
+}
 
-// char s21_strrchr(){}
+char *s21_strrchr(const char *str, int c) {
+  s21_size_t i = s21_strlen(str) - 1;
+  char *result = S21_NULL;
+  while (str[i] != '\0' && str[i] != (char)c) {
+    i--;
+  }
+  if (str[i] != '\0') result = (char *)&str[i];
+
+  return result;
+}
 
 char *s21_strstr(const char *haystack, const char *needle) {
   s21_size_t i = 0;
@@ -132,3 +128,22 @@ char *s21_strstr(const char *haystack, const char *needle) {
 }
 
 // char s21_strtok(){}
+
+/* UNUSED FUNCTIONS*/
+/********************************************************/
+/* int s21_strcmp(const char *str1, const char *str2) { */
+/*   while (*str1 && (*str1 == *str2)) {                */
+/*     str1++;                                          */
+/*     str2++;                                          */
+/*   }                                                  */
+/*   return *str1 - *str2;                              */
+/* }                                                    */
+/*                                                      */
+/* char *s21_strcpy(char *dest, const char *src) {      */
+/*   s21_size_t i = 0, slen = s21_strlen(src);          */
+/*   for (i = 0; i <= slen; i++) {                      */
+/*     dest[i] = src[i];                                */
+/*   }                                                  */
+/*   return dest;                                       */
+/* }                                                    */
+/********************************************************/

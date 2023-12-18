@@ -130,15 +130,20 @@ int main() {
     printf("strstr test : \033[0;32mdone\033[0m \n");
   else
     printf("strstr test : \033[0;31mfailed\033[0m\n");
+
+  // strtok test
+  char str[] = "Hello,World!This,is,a,sample,string";
+  const char delim[] = ",";
+  char *strtok_ret_test_1 = strtok(str, delim);
+  char *strtok_ret_test_2 = s21_strtok(str, delim);
+  if (strstr(strtok_ret_test_1, strtok_ret_test_2) != 0 &&
+      strcmp(strtok_ret_test_1, strtok_ret_test_2) == 0)
+    printf("strtok test : \033[0;32mdone\033[0m \n");
+  else
+    printf("strtok test : \033[0;31mfailed\033[0m\n");
+
   return 0;
 }
-
-
-// char strtok_test[30] = "abc/abc/acb/abc/acb";
-// char *strtok_ret_test_1 = strtok(strtok_test, "/");
-// while (strtok_ret_test_1 != NULL) {
-//   printf("%s\n", strtok_ret_test_1);
-// }
 
 // // strcmp test
 // int strcmp_test_ret_1 = s21_strcmp(str_test_1, str_test_2);

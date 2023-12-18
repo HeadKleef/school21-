@@ -127,7 +127,38 @@ char *s21_strstr(const char *haystack, const char *needle) {
   return res;
 }
 
-// char s21_strtok(){}
+char *s21_strtok(char *str, const char *delim) {
+  static char *lastToken = S21_NULL;
+  char *check = S21_NULL;
+  if (str != S21_NULL) {
+    lastToken = str;
+  } else if (lastToken == S21_NULL) {
+    check = S21_NULL;
+  }
+  if (lastToken != S21_NULL) {
+    char *start = lastToken;
+    while (*start != '\0' && s21_strchr(delim, *start) != S21_NULL) {
+      start++;
+    }
+    if (*start == '\0') {
+      lastToken = S21_NULL;
+      check = S21_NULL;
+    } else
+      check = start;
+
+    char *end = start + 1;
+    while (*end != '\0' && s21_strchr(delim, *end) == S21_NULL) {
+      end++;
+    }
+    if (*end != '\0') {
+      *end = '\0';
+      lastToken = end + 1;
+    } else {
+      lastToken = S21_NULL;
+    }
+  }
+  return check;
+}
 
 /* UNUSED FUNCTIONS*/
 /********************************************************/

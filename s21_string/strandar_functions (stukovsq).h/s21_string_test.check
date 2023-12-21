@@ -1,0 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "s21_string.h"
+
+#test strlen1
+char strlen_test[30] = "fuckhello";
+ck_assert_int_eq(strlen(strlen_test), s21_strlen(strlen_test));

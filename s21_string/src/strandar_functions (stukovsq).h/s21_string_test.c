@@ -141,11 +141,6 @@ int main() {
   else
     printf("strtok test : \033[0;31mfailed\033[0m\n");
 
-  // strerror test
-  // int i = 1;
-  // for (; i < 110; i++) {
-  //   printf("%3d = %s \n", i, strerror(i));
-  // }
   return 0;
 }
 

@@ -5,16 +5,17 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' 
 
+make old_test
 make test
 
-./test
+./old_test
 clang-format -i *.[ch]
 if clang-format -n *.[ch]
 then printf "${GREEN}CLANG TEST DONE${NC}\n"
 else printf "${RED}CLANG TEST FAILED${NC}\n"
 fi
 
-if valgrind --track-origins=yes -q ./test >log.txt
+if valgrind --track-origins=yes -q ./old_test >log.txt
 then printf "${GREEN}VALGRIND TEST DONE${NC}\n\n"
 else printf "${RED}VALGRIND TEST FAILED${NC}\n"
 fi

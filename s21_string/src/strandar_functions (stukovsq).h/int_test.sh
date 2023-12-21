@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' 
@@ -8,7 +7,6 @@ NC='\033[0m'
 make old_test
 make test
 
-./old_test
 clang-format -i *.[ch]
 if clang-format -n *.[ch]
 then printf "${GREEN}CLANG TEST DONE${NC}\n"

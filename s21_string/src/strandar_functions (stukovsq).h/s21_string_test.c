@@ -13,6 +13,7 @@ int main() {
   char strchr_test[30] = "0-132433533367-a8";
 
   // memchr test
+
   char *memchr_test_ret_1 = s21_memchr(strchr_test, nb, n);
   char *memchr_test_ret_2 = memchr(strchr_test, nb, n);
   if (strstr(memchr_test_ret_1, memchr_test_ret_2) != 0 &&
@@ -94,6 +95,29 @@ int main() {
     printf("strcspn test : \033[0;31mfailed\033[0m\n");
 
   // strlen test
+  char strlen_test[14][30] = {"This",
+                              "This string",
+                              "This string",
+                              "\0This string for",
+                              "\0This string for",
+                              "This striNg for tests.",
+                              "This striNg for tests.",
+                              "This striNg for tests.",
+                              " ",
+                              "   ",
+                              ".   ",
+                              "This string for tests.",
+                              "special symbol"};
+
+  for (int i = 0; i <= 13; i++) {
+    int strlen_test_ret_1 = s21_strlen(strlen_test[i]);
+    int strlen_test_ret_2 = strlen(strlen_test[i]);
+    if (strlen_test_ret_1 == strlen_test_ret_2)
+      printf("strlen test %d:  \033[0;32mdone\033[0m\n", i);
+    else
+      printf("strlen test %d : \033[0;31mfailed\033[0m\n", i);
+  }
+
   int strlen_test_ret_1 = s21_strlen(str_test_1);
   int strlen_test_ret_2 = strlen(str_test_1);
   if (strlen_test_ret_1 == strlen_test_ret_2)
@@ -140,6 +164,69 @@ int main() {
     printf("strtok test : \033[0;32mdone\033[0m \n");
   else
     printf("strtok test : \033[0;31mfailed\033[0m\n");
+
+  // // strerror test
+  // for (int i = 0; i < 110; i++) {
+  //   char *test_ret_err_2 = strerror(i);
+  //   char *test_ret_err_1 = s21_strerror(i);
+  //   if (strstr(test_ret_err_1, test_ret_err_2) != 0 &&
+  //       strcmp(test_ret_err_1, test_ret_err_2) == 0)
+  //     printf("strerror test %d: \033[0;32mdone\033[0m \n", i);
+  //   else
+  //     printf("strerror test %d : \033[0;31mfailed\033[0m\n", i);
+  // }
+
+  char str1[10] = "qweASD";
+  char str2[10] = "QWEASD";
+  char str3[10] = "qweasd";
+  // TO UPPER TEST
+  char *to_upper_test_ret_1 = s21_to_upper(str1);
+  if (strstr(to_upper_test_ret_1, str2) != 0 &&
+      strcmp(to_upper_test_ret_1, str2) == 0)
+    printf("to_upper test : \033[0;32mdone\033[0m \n");
+  else
+    printf("to_upper test : \033[0;31mfailed\033[0m\n");
+
+  // TO LOWER TEST
+  char *to_lower_test_ret_1 = s21_to_lower(str1);
+  if (strstr(to_lower_test_ret_1, str3) != 0 &&
+      strcmp(to_lower_test_ret_1, str3) == 0)
+    printf("to_lower test : \033[0;32mdone\033[0m \n");
+  else
+    printf("to_lower test : \033[0;31mfailed\033[0m\n");
+
+  // INSERT TEST
+  // char str_insert[20] = "123123";
+  // char src_insert[20] = "QWE";
+  // char insert[20] = "123QWE123";
+  // s21_size_t start_index = 3;
+  // printf("STRING: %s\n", str_insert);
+  // printf("SOURCE: %s\n", src_insert);
+  // printf("INDEX: %d\n", start_index);
+
+  // char *insert_test_ret_1 = s21_insert(src_insert, str_insert, start_index);
+  // printf("INSERT: %s\n", insert_test_ret_1);
+  // if (strstr(insert_test_ret_1, insert) != 0 &&
+  //     strcmp(insert_test_ret_1, insert) == 0)
+  //   printf("insert test : \033[0;32mdone\033[0m \n");
+  // else
+  //   printf("insert test : \033[0;31mfailed\033[0m\n");
+
+  // TRIM TEST
+  const char src_trim[20] = "Q1W2E3Q4W5E";
+  char trim_chars[10] = "QWE";
+  const char trim[10] = "12345";
+
+  printf("SOURCE: %s\n", src_trim);
+  printf("TRIM CHARS: %s\n", trim_chars);
+  printf("HOW NEED: %s\n", trim);
+
+  char *trim_test_ret_1 = s21_trim(src_trim, trim_chars);
+  printf("HOW HAVE: %s\n", trim_test_ret_1);
+  if (strstr(trim_test_ret_1, trim) != 0 && strcmp(trim_test_ret_1, trim) == 0)
+    printf("trim test : \033[0;32mdone\033[0m \n");
+  else
+    printf("trim test : \033[0;31mfailed\033[0m\n");
 
   return 0;
 }

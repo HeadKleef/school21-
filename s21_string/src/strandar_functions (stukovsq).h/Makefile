@@ -3,6 +3,7 @@ CC =gcc
 CFLAGS = -Wall -Werror -Wextra
 TEST = s21_string_test.c 
 LIB = s21_string.c 
+LIBEX = s21_string_ex.c
 RM = rm -rf
 CH = checkmk clean_mode=1 
 ###############################
@@ -18,16 +19,7 @@ ifeq ($(UNAME), Darwin)
 endif
 ####################################################
 
-
-## компиляция статической бмблиотеки ##
 all: s21_string.a
-s21_string.a:
-	$(CC) -c $(LIB) -o s21_string.o
-	ar rcs $@ *.o
-	ranlib $@
-	$(RM) *.o
-#######################################
-
 
 ## тестирование с библеотекой CHECK ###
 check.c: s21_string.a
@@ -44,6 +36,21 @@ old_test: s21_string.a
 	$(CC) $(CFLAGS) $(TEST) $<  -o $@
 	./old_test
 #######################################
+
+
+## компиляция статической библиотеки ##
+s21_string.a: s21_string.o s21_string_ex.o
+	ar rcs $@ $< s21_string_ex.o
+	ranlib $@
+	rm $<
+
+s21_string.o: $(LIB)
+	$(CC) -c $(LIB) -o $@
+s21_string_ex.o: $(LIBEX)
+	$(CC) -c $(LIBEX) -o $@
+	
+#######################################
+
 
 
 ############ полная очистка ############## 

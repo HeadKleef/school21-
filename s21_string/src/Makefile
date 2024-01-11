@@ -1,9 +1,13 @@
 ########## сокращения ##########
 CC =gcc
 CFLAGS = -Wall -Werror -Wextra
-TEST = s21_string_test.c 
-LIB = s21_string.c 
-LIBEX = s21_string_ex.c
+LIB = s21_functions/s21_string.c 
+TEST = auto_test/s21_string_test.c
+LIBEX = s21_functions/s21_string_ex.c
+SCAN = s21_sscanf/s21_sscanf.c
+PRINT = s21_sprintf/s21_sprintf.c
+
+
 RM = rm -rf
 CH = checkmk clean_mode=1 
 ###############################
@@ -26,11 +30,12 @@ endif
 ####### тестирование с библеотекой CHECK #######
 
 check.c: s21_string.a
-	$(CH) s21_string_test.check > $@
-	$(CC) $(TFLAGS) $(LIB) $(LIBEX) $@ -o check
+	$(CH) auto_test/s21_string_test.check > $@
+	$(CC) $(TFLAGS) $(LIB) $(LIBEX) $(SCAN) $(PRINT) $@  -o test
 
 test: check.c 
-	 ./check
+	 ./test
+	 $(RM) test
 ################################################
 
 
@@ -42,22 +47,40 @@ old_test: s21_string.a
 
 
 #### компиляция статической библиотеки ####
-s21_string.a: s21_string.o s21_string_ex.o
-	ar rcs $@ $< s21_string_ex.o
+s21_string.a: s21_string.o s21_string_ex.o s21_sscanf.o s21_sprintf.o
+	ar rcs $@ $< s21_string_ex.o s21_sscanf.o s21_sprintf.o
 	ranlib $@
-	rm $< s21_string_ex.o
+	rm $< s21_string_ex.o s21_sscanf.o s21_sprintf.o
 
 s21_string.o: $(LIB)
 	$(CC) -c $(LIB) -o $@
 s21_string_ex.o: $(LIBEX)
 	$(CC) -c $(LIBEX) -o $@
+s21_sscanf.o: $(SCAN)
+	$(CC) -c $(SCAN) -o $@
+s21_sprintf.o: $(PRINT)
+	$(CC) -c $(PRINT) -o $@
 	
 ###########################################
 
 
+##################################GCOV_REPORT#####################################
+gcov_report: s21_string.a check.c 
+	$(CC) $(CFLAGS) --coverage $(LIB) $(LIBEX) $(SCAN) $(PRINT)  check.c  $(TFLAGS) -lm -o gcov_test 
+
+	./gcov_test
+	lcov -t "test" -o test_report.info -c -d .
+	genhtml -o report test_report.info
+	rm -rf *.o *.a  *.gch *.gcno test  gcov_test
+##################################################################################
+
+
 ############## полная очистка ################ 
 clean:
-	$(RM) old_test s21_string.a check check.c 
+	$(RM) old_test s21_string.a check check.c *.gcda  *.gch *.gcno report test_report.info ret.txt 
+
+clean_1:
+	$(RM) old_test s21_string.a *.gcda ret.txt 
 ##############################################
 
 

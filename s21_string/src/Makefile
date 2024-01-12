@@ -15,9 +15,9 @@ CH = checkmk clean_mode=1
 
 ################ определение ОС ####################
  UNAME  := $(shell uname -s)
- ifeq ($(UNAME), Linux)
+ifeq ($(UNAME), Linux)
  	TFLAGS = -lpthread -pthread -lrt -lm -lsubunit
- endif
+endif
 ifeq ($(UNAME), Darwin)
 	TFLAGS = -lcheck
 endif

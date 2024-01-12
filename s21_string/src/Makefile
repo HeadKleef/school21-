@@ -31,9 +31,11 @@ endif
 
 check.c: s21_string.a
 	$(CH) auto_test/s21_string_test.check > $@
-	$(CC) $(TFLAGS) $(LIB) $(LIBEX) $(SCAN) $(PRINT) $@  -o test
+	clang-format -i check.c
+	
 
-test: check.c 
+test: 
+	$(CC) $(TFLAGS) $(LIB) $(LIBEX) $(SCAN) $(PRINT) check.c  -o test
 	 ./test
 	 $(RM) test
 ################################################
@@ -65,8 +67,9 @@ s21_sprintf.o: $(PRINT)
 
 
 ##################################GCOV_REPORT#####################################
-gcov_report: s21_string.a check.c 
+gcov_report: s21_string.a check.c
 	$(CC) $(CFLAGS) --coverage $(LIB) $(LIBEX) $(SCAN) $(PRINT)  check.c  $(TFLAGS) -lm -o gcov_test 
+	
 
 	./gcov_test
 	lcov -t "test" -o test_report.info -c -d .
@@ -77,10 +80,10 @@ gcov_report: s21_string.a check.c
 
 ############## полная очистка ################ 
 clean:
-	$(RM) old_test s21_string.a check check.c *.gcda  *.gch *.gcno report test_report.info ret.txt 
+	$(RM) old_test test s21_string.a  *.gcda  *.gch *.gcno report test_report.info ret.txt 
 
 clean_1:
-	$(RM) old_test s21_string.a *.gcda ret.txt 
+	$(RM) old_test  test s21_string.a *.gcda ret.txt 
 ##############################################
 
 

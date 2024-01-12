@@ -11,31 +11,33 @@ make old_test
 make gcov_report
 
 
-clang-format -i *.[ch]
 if clang-format -n *.[ch]
 then printf "${GREEN}CLANG TEST DONE${NC}\n"
 else printf "${RED}CLANG TEST FAILED${NC}\n"
 fi
-cd s21_functions
-clang-format -i *.[ch]
+
+cd auto_test
+if clang-format -n *.[ch]
+then printf "${GREEN}CLANG TEST DONE${NC}\n"
+else printf "${RED}CLANG TEST FAILED${NC}\n"
+fi
+
+cd ../s21_functions
 if clang-format -n *.[ch]
 then printf "${GREEN}CLANG TEST DONE${NC}\n"
 else printf "${RED}CLANG TEST FAILED${NC}\n"
 fi
 cd ../s21_sprintf
-clang-format -i *.[ch]
 if clang-format -n *.[ch]
 then printf "${GREEN}CLANG TEST DONE${NC}\n"
 else printf "${RED}CLANG TEST FAILED${NC}\n"
 fi
 cd ../s21_sscanf
-clang-format -i *.[ch]
 if clang-format -n *.[ch]
 then printf "${GREEN}CLANG TEST DONE${NC}\n"
 else printf "${RED}CLANG TEST FAILED${NC}\n"
 fi
 cd ../
-clang-format -i *.[ch]
 if clang-format -n *.[ch]
 then printf "${GREEN}CLANG TEST DONE${NC}\n"
 else printf "${RED}CLANG TEST FAILED${NC}\n"

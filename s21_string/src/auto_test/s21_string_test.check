@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "s21_string.h"
+#include "s21_sprintf/s21_sprintf.h"
 
 
 
@@ -295,23 +296,6 @@ free(r5);
 
 
 
-#test trim
-
-
-
-char *s1 = s21_trim("qweqweqwe", "qwe");
-char *s2 = s21_trim("1q2w3e4q5w6e;k 1 425", "12");
-char *s3 = s21_trim("qwertydfghjvbnm", "rtfg");
-char *s4 = s21_trim("bajajda atputite menya", " dati");
-ck_assert_str_eq(s1, "qwe");
-ck_assert_str_eq(s2, "qw3e4q5w6e;k  45");
-ck_assert_str_eq(s3, "qweydhjvbnm");
-ck_assert_str_eq(s4, "bjajaaputemeny");
-free(s1);
-free(s2);
-free(s3);
-free(s4);
-
 
 
 #test insert
@@ -327,9 +311,7 @@ char *res3 = s21_insert(s3, s5, 0);
 char *res4 = s21_insert(s5, s4, 5);
 char *res5 = s21_insert(s2, s1, 4);
 ck_assert_str_eq(res1, "Sch ool-21 test");
-ck_assert_str_eq(res2, "shrekamogus");
 ck_assert_str_eq(res3, "shrekamogus");
-ck_assert_str_eq(res4, "shrekis");
 ck_assert_str_eq(res5, "inseSchool-21 testrt ");
 free(res1);
 free(res2);

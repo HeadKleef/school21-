@@ -17,15 +17,11 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
 /***************************** MEMCMP *****************************/
 /*        Сравнивает первые n байтов str1 и str2.                 */
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
-  const unsigned char *str1_clone = (const unsigned char *)str1;
-  const unsigned char *str2_clone = (const unsigned char *)str2;
-  s21_size_t i = 0;
-  while (*str1_clone && (*str1_clone == *str2_clone) && i < n) {
-    str1_clone++;
-    str2_clone++;
-    i++;
+  int answer = 0;
+  for (s21_size_t i = 0; i < n && answer == 0; i++) {
+    answer = *((char *)str1 + i) - *((char *)str2 + i);
   }
-  return *str1_clone - *str2_clone;
+  return answer;
 }
 
 /***************************** MEMCPY *****************************/
@@ -68,25 +64,22 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n) {
 /*  Выполняет поиск первого вхождения символа c (беззнаковый тип) */
 /*        в строке, на которую указывает аргумент str.            */
 char *s21_strchr(const char *str, int c) {
-  char *res = S21_NULL;
+  char *answer = S21_NULL;
+  s21_size_t size = (s21_strlen(str) + 1);
   s21_size_t i = 0;
-  while (str[i] != '\0' && res == S21_NULL) {
-    if (str[i] == c) res = (char *)&str[i];
-    i++;
+  for (; i < size; i++) {
+    if (str[i] == c) {
+      answer = (char *)&str[i];
+      break;
+    }
   }
-  return res;
+  return answer;
 }
 
 /**************************** STRNCMP *****************************/
 /*        Сравнивает не более первых n байтов str1 и str2.        */
 int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
-  s21_size_t i = 0;
-  while (*str1 && (*str1 == *str2) && i < n) {
-    str1++;
-    str2++;
-    i++;
-  }
-  return *str1 - *str2;
+  return s21_memcmp(str1, str2, n);
 }
 
 /**************************** STRNCPY *****************************/
@@ -105,7 +98,8 @@ char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
 /*   который полностью состоит из символов, не входящих в str2.   */
 s21_size_t s21_strcspn(const char *str1, const char *str2) {
   s21_size_t i = 0;
-  for (; !s21_strchr(str2, str1[i]); i++) {
+  for (; i < s21_strlen(str1); i++) {
+    if (s21_strchr(str2, str1[i]) != S21_NULL) break;
   }
   return i;
 }
@@ -180,34 +174,55 @@ s21_size_t s21_strlen(const char *str) {
 /*              Вычисляет длину строки str,                       */
 /*          не включая завершающий нулевой символ.                */
 char *s21_strpbrk(const char *str1, const char *str2) {
-  s21_size_t i = s21_strcspn(str1, str2);
-  return (char *)str1 + i;
+  char *answer = S21_NULL;
+  int len_str2 = s21_strlen(str2);
+  while (*str1 && !answer) {
+    for (int t = 0; t < len_str2; t++) {
+      if (*str1 == str2[t]) {
+        answer = (char *)str1;
+        break;
+      }
+    }
+    if (!answer) str1++;
+  }
+  return answer;
 }
 
 char *s21_strrchr(const char *str, int c) {
-  s21_size_t i = s21_strlen(str) - 1;
-  char *result = S21_NULL;
-  while (str[i] != '\0' && str[i] != (char)c) {
-    i--;
+  char *answer = S21_NULL;
+  int size = (s21_strlen(str) + 1);
+  for (; 0 <= size; size--) {
+    if (str[size] == c) {
+      answer = (char *)&str[size];
+      break;
+    }
   }
-  if (str[i] != '\0') result = (char *)&str[i];
-
-  return result;
+  return answer;
 }
 
 /***************************** STRSTR *****************************/
 /*    Находит первый символ в строке str1, который соответствует  */
 /*                любому символу, указанному в str2.              */
 char *s21_strstr(const char *haystack, const char *needle) {
-  s21_size_t i = 0, n = 0;
-  char *res = S21_NULL;
-  for (; i < s21_strlen(haystack) && n < 1; i++) {
-    if (haystack[i] == needle[1] && n < 1) {
-      n = 1;
-      res = (char *)haystack + i;
+  char *answer = S21_NULL;
+  s21_size_t str1_len = s21_strlen(haystack);
+  s21_size_t str2_len = s21_strlen(needle);
+  if (str1_len >= str2_len) {
+    for (s21_size_t i = 0; i <= str1_len - str2_len; i++) {
+      int found = 1;
+      for (s21_size_t j = i, t = 0; needle[t]; t++, j++) {
+        if (haystack[j] != needle[t]) {
+          found = 0;
+          break;
+        }
+      }
+      if (found) {
+        answer = (char *)haystack + i;
+        break;
+      }
     }
   }
-  return res;
+  return answer;
 }
 
 /***************************** strtok *****************************/

@@ -152,11 +152,6 @@ int read_oct(const char **str, int *num) {
   return count;
 }
 
-int read_ptr(const char **str, int *num) {
-  s21_strcpy((char *)num, *str);
-  return 1;
-}
-
 int s21_sscanf(const char *str, const char *format, ...) {
   va_list args;
   va_start(args, format);
@@ -181,23 +176,24 @@ int s21_sscanf(const char *str, const char *format, ...) {
           p = va_arg(args, int *);
         else
           p = malloc(sizeof(int) * 100);
-        if ((count2 += read_decimal(&str, p, num)) > 0)
-          flag == 0 ? count++ : free(p);
+        if ((count2 += read_decimal(&str, p, num)) > 0) flag == 0 ? count++ : 0;
+        if (flag != 0) free(p);
       } else if (*format == 's') {
         char *s;
         if (flag == 0)
           s = va_arg(args, char *);
         else
           s = malloc(sizeof(char *) * 100);
-        if ((count2 += read_string(&str, s)) > 0) flag == 0 ? count++ : free(s);
+        if ((count2 += read_string(&str, s)) > 0) flag == 0 ? count++ : 0;
+        if (flag != 0) free(s);
       } else if (*format == 'c') {
         char *c;
         if (flag == 0)
           c = va_arg(args, char *);
         else
           c = malloc(sizeof(char) * 100);
-        if ((count2 += read_char(&str, c, num)) > 0)
-          flag == 0 ? count++ : free(c);
+        if ((count2 += read_char(&str, c, num)) > 0) flag == 0 ? count++ : 0;
+        if (flag != 0) free(c);
       } else if (*format == 'e' || *format == 'E' || *format == 'f' ||
                  *format == 'g' || *format == 'G') {
         float *f;
@@ -205,7 +201,8 @@ int s21_sscanf(const char *str, const char *format, ...) {
           f = va_arg(args, float *);
         else
           f = malloc(sizeof(float) * 100);
-        if ((count2 += read_float(&str, f)) > 0) flag == 0 ? count++ : free(f);
+        if ((count2 += read_float(&str, f)) > 0) flag == 0 ? count++ : 0;
+        if (flag != 0) free(f);
       } else if (*format == 'i' || *format == 'X' || *format == 'x') {
         int *i;
         if (flag == 0)
@@ -214,21 +211,16 @@ int s21_sscanf(const char *str, const char *format, ...) {
           i = malloc(sizeof(int) * 100);
         if ((count2 += read_int(
                  &str, i, (*format == 'X' || *format == 'x') ? 16 : 10)) > 0)
-          flag == 0 ? count++ : free(i);
+          flag == 0 ? count++ : 0;
+        if (flag != 0) free(i);
       } else if (*format == 'o') {
         int *o;
         if (flag == 0)
           o = va_arg(args, int *);
         else
           o = malloc(sizeof(int) * 100);
-        if ((count2 += read_oct(&str, o)) > 0) flag == 0 ? count++ : free(o);
-      } else if (*format == 'p') {
-        int *p;
-        if (flag == 0)
-          p = va_arg(args, int *);
-        else
-          p = malloc(sizeof(int) * 100);
-        if ((count2 += read_ptr(&str, p)) > 0) flag == 0 ? count++ : free(p);
+        if ((count2 += read_oct(&str, o)) > 0) flag == 0 ? count++ : 0;
+        if (flag != 0) free(o);
       } else if (*format == '%') {
         int spaces = 0;
         while (*str == ' ') {

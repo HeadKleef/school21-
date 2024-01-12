@@ -8,7 +8,7 @@ int main() {
   int n = 3;
   int test = '5';
   int nb = 45;
-  char str_test_1[10] = "qwert";
+  char str_test_1[30] = "qwert";
   char str_test_2[10] = "yw0q";
   char strchr_test[30] = "0-132433533367-a8";
 
@@ -48,15 +48,15 @@ int main() {
   else
     printf("memset test : \033[0;31mfailed\033[0m\n");
 
-  // //strncat test
-  // char *strncat_test_ret_1 = s21_strncat(str_test_1, str_test_2, n);
-  // char *strncat_test_ret_2 = strncat(str_test_1, str_test_2, n);
-  // // printf("%s\n", strncat_test_ret_2);
-  // if (strstr(strncat_test_ret_1, strncat_test_ret_2) != 0 &&
-  //     strcmp(strncat_test_ret_1, strncat_test_ret_2) == 0)
-  //   printf("strncat test : \033[0;32mdone\033[0m \n");
-  // else
-  //   printf("strncat test : \033[0;31mfailed\033[0m\n");
+  // strncat test
+  char *strncat_test_ret_1 = s21_strncat(str_test_1, str_test_2, n);
+  char *strncat_test_ret_2 = strncat(str_test_1, str_test_2, n);
+  // printf("%s\n", strncat_test_ret_2);
+  if (strstr(strncat_test_ret_1, strncat_test_ret_2) != 0 &&
+      strcmp(strncat_test_ret_1, strncat_test_ret_2) == 0)
+    printf("strncat test : \033[0;32mdone\033[0m \n");
+  else
+    printf("strncat test : \033[0;31mfailed\033[0m\n");
 
   // strchr test
   char *strchr_test_ret_1 = s21_strchr(strchr_test, nb);
@@ -222,160 +222,5 @@ int main() {
     printf("insert test : \033[0;31mfailed\033[0m\n");
   free(insert_test_ret_1);
 
-  // TRIM TEST
-  const char src_trim[20] = "Q1W2E3Q4W5E";
-  char trim_chars[10] = "QWE";
-  const char trim[10] = "12345";
-
-  char *trim_test_ret_1 = s21_trim(src_trim, trim_chars);
-  if (strstr(trim_test_ret_1, trim) != 0 && strcmp(trim_test_ret_1, trim) == 0)
-    printf("trim test : \033[0;32mdone\033[0m \n");
-  else
-    printf("trim test : \033[0;31mfailed\033[0m\n");
-
-  free(trim_test_ret_1);
-
-
-  char strp1[100] = {'\0'};
-  char strp2[100] = {'\0'};
-  // char format[] = "%cdgnh%-6.3u % +-8.2fd%6.33s";
-  int r1 = s21_sprintf(strp1, "%s%10s%.0s%7.2s%-10.3s %5.3s%-5.0s", "aboba",
-                       "helloworld", "ABOBA", "ABOBBAAA", "AAABOBA", "QWERTY",
-                       "AAAAABOOOOOBAAA");
-  int r2 =
-      sprintf(strp2, "%s%10s%.0s%7.2s%-10.3s %5.3s%-5.0s", "aboba", "helloworld",
-              "ABOBA", "ABOBBAAA", "AAABOBA", "QWERTY", "AAAAABOOOOOBAAA");
-
-  // char str1[1000];
-  // char str2[1000];
-  // char s[10] = {'h', 'e', 'l', 'l', 'o'};
-
-  // int r1 = sprintf(str1, "%s%10s%.0s%7.2s%-10.3s %5.3s%-5.0s%s%s%6.33s",
-  //                  "aboba", "helloworld", "ABOBA", "ABOBBAAA", "AAABOBA",
-  //                  "QWERTY", "AAAAABOOOOOBAAA", "ABOBAAAAA", s, s);
-  // int r2 = s21_sprintf(str2, "%s%10s%.0s%7.2s%-10.3s%5.3s%-5.0s%s%s%6.33s",
-  //                 "aboba", "helloworld", "ABOBA", "ABOBBAAA", "AAABOBA",
-  //                "QWERTY", "AAAAABOOOOOBAAA", "ABOBAAAAA", s, s);
-  // result = sprintf(str2, "%.0f", 99.99);
-  // myres = s21_sprintf(str, "%.0f", 99.99);
-  // // char str1[1000];
-  // char str2[1000];
-  // int r1 =
-  //     sprintf(str1, "%+-10.5f%+10.2f%15.16f%+.10f%.16f%-10.f%25.f%25.f%.2f%.f",
-  //             2546.4324, 3452.4325, 5678.43256, 456789.243242, 3456789123.43245,
-  //             12345.6788, 34.4325432, 4325678.43242, 99.990, 34567.43244);
-  // int r2 = s21_sprintf(
-  //     str2, "%+-10.5f%+10.2f%15.16f%+.10f%.16f%-10.f%25.f%25.f%.2f%.f",
-  //     2546.4324, 3452.4325, 5678.43256, 456789.243242, 3456789123.43245,
-  //     12345.6788, 34.4325432, 4325678.43242, 99.990, 34567.43244);
-//   char c3[100] = "lolkek";
-//   char c4[100] = "lolkek";
-//   int r1 = sprintf(c3 + 6, "%d", -6000);
-//   int r2 = s21_sprintf(c4 + 6, "%d", -6000);
-//   printf("-%s\n", c3);
-//   printf("=%s\n", c4);
-   printf("%d==%d\n", r1, r2);
-
-////////////////
-
-
-// int a, a1;
-// int b, b1;
-// int c, c1, d, d1, e, e1;
-// a = b = c = d = 1;
-// a1 = b1 = c1 = d1 = 1;
-// const char str[] = "-12345 -000456000 111 +0005 666 777";
-// sscanf(str, "%3d %d %d %*d %d %2d", &a, &b, &c, &d, &e);
-//                  s21_sscanf(str, "%3d %d %d %*d %d %2d", &a1, &b1, &c1, &d1,
-//                             &e1);
-// printf("%d %d", a, a1);
-// printf("%d %d", b, b1);
-// printf("%d %d", c, c1);
-// printf("%d %d", d, d1);
-// printf("%d %d", e, e1);
-
-// char a[40] = {'\0'}, c[40] = {'\0'}, d[40] = {'\0'};
-// char b[40] = {'\0'};
-// char a2[40] = {'\0'}, c2[40] = {'\0'}, d2[40] = {'\0'};
-// wchar_t b2[40] = {'\0'};
-// const char str[] = "lol kek cheburek morzh pisos";
-// printf("%d %d", sscanf(str, "%s %s %3c %*s %s", a, b, c, d),
-//                  s21_sscanf(str, "%s %s %3c %*s %s", a2, b2, c2, d2));
-// printf("%s %s", a, a2);
-// printf("%s %s", c, c2);
-// printf("%s %s", d, d2);
-
-// int a1, b1, c1, d1, a2, b2, c2, d2;
-// a1 = a2 = b1 = b2 = c1 = c2 = d1 = d2 = 1;
-// const char str[] = "1778 012 0x1111 -10 pisos";
-// int r1 = sscanf(str, "%x%x%x%x", &a1, &b1, &c1, &d1);
-// int r2 = s21_sscanf(str, "%x%x%x%x", &a2, &b2, &c2, &d2);
-// printf("%d %d", r1, r2);
-// printf("%d %d", a1, a2);
-// printf("%d %d", b1, b2);
-// printf("%d %d", c1, c2);
-// printf("%d %d", d1, d2);
-
-// int a1, b1, c1, d1, a2, b2, c2, d2;
-// a1 = a2 = b1 = b2 = c1 = c2 = d1 = d2 = 1;
-// const char str[] = "1778 012 0x1Aa8 -10 pisos";
-// int r1 = sscanf(str, "%*i%i%i%i", &a1, &b1, &c1);
-// int r2 = s21_sscanf(str, "%*i%i%i%i", &a2, &b2, &c2);
-// printf("%d %d", r1, r2);
-// printf("%d %d", a1, a2);
-// printf("%d %d", b1, b2);
-// printf("%d %d", c1, c2);
-
-// int a1, b1, c1, d1, a2, b2, c2, d2;
-// a1 = a2 = b1 = b2 = c1 = c2 = d1 = d2 = 1;
-// const char str[] = "1775 012 0 -10 pisos";
-// int r1 = sscanf(str, "%o%o%o%o", &a1, &b1, &c1, &d1);
-// int r2 = s21_sscanf(str, "%o%o%o%o", &a2, &b2, &c2, &d2);
-// printf("%d %d", r1, r2);
-// printf("%d %d", a1, a2);
-// printf("%d %d", b1, b2);
-// printf("%d %d", c1, c2);
-// printf("%d %d", d1, d2);
-
-
-// int a1, b1, c1, d1, a2, b2, c2, d2;
-// a1 = a2 = b1 = b2 = c1 = c2 = d1 = d2 = 1;
-// const char str[] = "-12345 -000456000 111    0005 pisos";
-// int r1 = s21_sscanf(str, "%d %d %n %d", &a1, &b1, &c1, &d1);
-// int r2 = sscanf(str, "%d %d %n %d", &a2, &b2, &c2, &d2);
-// printf("%d %d", r1, r2);
-// printf("%d %d", a1, a2);
-// printf("%d %d", b1, b2);
-// printf("%d %d", c1, c2);
-// printf("%d %d", d1, d2);
-
-// float a1, b1, a2, b2;
-// float c1, c2;
-// float d1, d2;
-// a1 = a2 = b1 = b2 = c1 = c2 = d1 = d2 = 1.1;
-// const char str[] = "-12345.445 12.34e+03 -0.0 1234e-03 pisos";
-// s21_sscanf(str, "%f%f%f%f", &a1, &b1, &c1, &d1);
-// sscanf(str, "%f%f%f%f", &a2, &b2, &c2, &d2);
-// ck_assert_float_eq(a1, a2);
-// ck_assert_float_eq(b1, b2);
-// ck_assert_float_eq(c1, c2);
-
-// unsigned int a1, b1, a2, b2;
-// unsigned int c1, c2;
-// unsigned int d1, d2;
-// a1 = a2 = b1 = b2 = c1 = c2 = d1 = d2 = 1;
-// const char str[] = "0 0002 -1 -1234 666 pisos";
-// int r1 = sscanf(str, "%*u%u%u%u%u", &a1, &b1, &c1, &d1);
-// int r2 = s21_sscanf(str, "%*u%u%u%u%u", &a2, &b2, &c2, &d2);
-// printf("%d %d", r1, r2);
-// printf("%d %d", a1, a2);
-// printf("%d %d", b1, b2);
-// printf("%d %d", c1, c2);
-// printf("%d %d", d1, d2);
-
-
-
-////////
   return 0;
 }
-

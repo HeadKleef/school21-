@@ -5,7 +5,7 @@ ARM = s21_arithmetic.c
 COMP = s21_comparison.c
 CONVPAR = s21_convert.c
 ANTR = s21_another_dec.c
-TEST = 21_decimal_test.c
+TEST = auto_tests/21_decimal_test.c
 
 RM = rm -rf
 CH = checkmk clean_mode=1 

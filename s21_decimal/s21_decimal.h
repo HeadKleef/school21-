@@ -2,6 +2,16 @@
 #ifndef S21_DECIMAL_H_
 #define S21_DECIMAL_H_
 
+typedef struct 
+{
+    unsigned int bits[4];
+} s21_decimal;
+
+#define MAX_POW 28
+#define FLOAT_ACCURACY 7
+#define S21_MAX_UINT 4294967295
+#define S21_MAX_INT 2147483647
+
 //arithmetic
 
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result); // оператор сложения 
@@ -32,5 +42,10 @@ int s21_round(s21_decimal value, s21_decimal *result); // округление �
 int s21_truncate(s21_decimal value, s21_decimal *result); // отбрасывание дробной части 
 int s21_negate(s21_decimal value, s21_decimal *result); // результат умножения на -1
 
+//Onniajua functions
+int get_exponent(unsigned int bit) ;
+int get_sign(unsigned int bit) ;
+int get_empty(unsigned int bit) ;
+void set_exponent(int exp, s21_decimal *val) ;
 
 #endif

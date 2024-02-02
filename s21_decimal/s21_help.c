@@ -1,18 +1,18 @@
 #include "s21_decimal.h"
 
 
-int get_exponent(unsigned int bit) {
+int get_exponent(unsigned int bit) { // Получение степени 
     for(int i = 0; i < 16; i++) {
         bit /= 2;
     }
     return bit % 256;
 }
 
-int get_sign(unsigned int bit) {
+int get_sign(unsigned int bit) { // Получение знака
     return bit > S21_MAX_INT ? 1 : 0;
 }
 
-int get_empty(unsigned int bit) {
+int get_empty(unsigned int bit) { // Наличие установленных битов
     for(int i = 0; i < 16; i++) {
         if(bit % 2 != 0) { 
             return 1;
@@ -29,12 +29,12 @@ int get_empty(unsigned int bit) {
     }
     return 0;
 }
-void set_exponent(int exp, s21_decimal* val) {
+void set_exponent(int exp, s21_decimal* val) { // обновление значения степени
     int tmp = val->bits[3] % (256 * 256);
     int tmp2 = val->bits[3] / (256 * 256 * 256);
     tmp2 = tmp2 << 8;
     tmp2 += exp;
     tmp2 = tmp2 << 16;
-    tmp += tmp;
+    tmp += tmp; // Лишняя строка?
     val->bits[3] = tmp2;
 }

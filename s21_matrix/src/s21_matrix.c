@@ -56,54 +56,28 @@ int s21_eq_matrix(matrix_t *A, matrix_t *B) {  // сравнение матри�
   }
   return error;
 }
-int s21_sum_matrix(matrix_t *A, matrix_t *B,
-                   matrix_t *result) {  // сложение матриц
-  int ret = CALC_ERROR;
-
-  if (!is_okay(A) || !is_okay(B))
-    ret = FAIL;  // проверка матриц на существование
-  else {
-    if (is_okay(A) && is_okay(B) && are_sizes_equal(*A, *B)) {
-      if (s21_create_matrix(A->rows, A->columns, result) == 0) {
-        ret = OK;
-        for (int i = 0; i < A->rows; i++) {
-          for (int j = 0; j < A->columns; j++) {
-            result->matrix[i][j] =
-                A->matrix[i][j] +
-                B->matrix[i][j];  // сложение каждого элемента матрицы
-          }
-        }
-      }
-    } else
-      ret = CALC_ERROR;  // возврат ошибки в случае проблем
-  }
-  return ret;
-}
-
-int s21_sub_matrix(matrix_t *A, matrix_t *B,
-                   matrix_t *result) {  // вычитание матриц
-}
-
-int s21_mult_number(matrix_t *A, double number,
-                    matrix_t *result) {  // умножение матрицы на число
-}
-
-int s21_mult_matrix(matrix_t *A, matrix_t *B,
-                    matrix_t *result) {  // умножение двух матриц
-}
 
 int s21_transpose(matrix_t *A,
                   matrix_t *result) {  // транспонирование матриц (перевод
                                        // столбов в строки и наоборот)
+  int ret = CALC_ERROR;
+  if (!is_okay(A))
+    ret = FAIL;  // проверка матрицы на существование
+  else {
+    if (s21_create_matrix(A->rows, A->columns, result) == 0) {
+      ret = OK;
+      for (int i = 0; i < A->rows; i++) {
+        for (int j = 0; j < A->columns; j++) {
+          result->matrix[i][j] =
+              A->matrix[j][i];  // умножение каждого элемента матрицы на число
+        }
+      }
+    }
+    ret = CALC_ERROR;  // возврат ошибки в случае проблем
+  }
+  return ret;
 }
 
-int s21_calc_complements(
-    matrix_t *A,
-    matrix_t *result) {  //Минор матрицы и матрица алгебраических дополнений
-}
-
-int s21_determinant(matrix_t *A, double *result) {  // определитель матрицы
-}
 int s21_inverse_matrix(matrix_t *A,
                        matrix_t *result) {  // инвертирование матрицы
 }

@@ -7,3 +7,7 @@ int is_okay(matrix_t *A) {
 int are_sizes_equal(matrix_t A, matrix_t B) {
   return (A.rows == B.rows && A.columns == B.columns);
 }
+
+int s21_can_be_multiplied(matrix_t *A, matrix_t *B) {
+  return (A->columns == B->rows);
+}

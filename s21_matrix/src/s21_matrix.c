@@ -41,14 +41,12 @@ void s21_remove_matrix(matrix_t *A) {  // очистка матрицы
 int s21_eq_matrix(matrix_t *A, matrix_t *B) {  // сравнение матриц
   int error = FAILURE;
 
-  if (is_okay(A) && is_okay(B) &&
-      A->columns == B->columns &&  // сравнение  размера матриц
+  if (is_okay(A) && is_okay(B) && A->columns == B->columns &&
       A->rows == B->rows) {
     error = SUCCESS;
     for (int i = 0; i < A->rows; i++) {
       for (int j = 0; j < A->columns; j++) {
-        if (fabs(A->matrix[i][j] - B->matrix[i][j]) >
-            1e-7) {  // сравнение значений матриц
+        if (fabs(A->matrix[i][j] - B->matrix[i][j]) > 1e-7) {
           error = FAILURE;
         }
       }
@@ -57,27 +55,42 @@ int s21_eq_matrix(matrix_t *A, matrix_t *B) {  // сравнение матри�
   return error;
 }
 
-int s21_transpose(matrix_t *A,
-                  matrix_t *result) {  // транспонирование матриц (перевод
-                                       // столбов в строки и наоборот)
-  int ret = CALC_ERROR;
-  if (!is_okay(A))
-    ret = FAIL;  // проверка матрицы на существование
-  else {
-    if (s21_create_matrix(A->rows, A->columns, result) == 0) {
-      ret = OK;
-      for (int i = 0; i < A->rows; i++) {
-        for (int j = 0; j < A->columns; j++) {
-          result->matrix[i][j] =
-              A->matrix[j][i];  // умножение каждого элемента матрицы на число
-        }
-      }
-    }
-    ret = CALC_ERROR;  // возврат ошибки в случае проблем
+int s21_transpose(matrix_t *A, matrix_t *result) {
+  if (A->matrix == NULL) {
+    return FAIL;
   }
-  return ret;
+  if (A->rows == 0 || A->columns == 0) {
+    return CALC_ERROR;
+  }
+  s21_create_matrix(A->columns, A->rows, result);
+  for (int i = 0; i < A->rows; i++) {
+    for (int j = 0; j < A->columns; j++) {
+      result->matrix[j][i] = A->matrix[i][j];
+    }
+  }
+  return OK;
 }
 
 int s21_inverse_matrix(matrix_t *A,
                        matrix_t *result) {  // инвертирование матрицы
+  int error = FAIL;
+  if (is_okay(A)) {
+    error = OK;
+    double det = 0;
+    s21_determinant(A, &det);
+    if (A->rows != A->columns || det == 0) {
+      error = CALC_ERROR;
+    } else {
+      matrix_t complements;
+      matrix_t transponse;
+      int compl = s21_calc_complements(A, &complements);
+      int create = s21_transpose(&complements, &transponse);
+      if (create == 0 && compl == 0) {
+        error = s21_mult_number(&transponse, 1 / det, result);
+        s21_remove_matrix(&complements);
+        s21_remove_matrix(&transponse);
+      }
+    }
+  }
+  return error;
 }

@@ -1,78 +1,63 @@
-CC =gcc
-CFLAGS = -Wall -Werror -Wextra
-LIB = s21_matrix.c 
+CC = gcc
+FLAGS = -g -Wall -Wextra -Werror -std=c11
 
-RM = rm -rf
-CH = checkmk clean_mode=1 
-###############################
+TEST_FLAGS = -lcheck -lpthread -pthread -lm 
 
+SRC = $(wildcard *.c)
+OBJ = $(patsubst %.c, %.o, $(SRC))
 
-################ определение ОС ####################
- UNAME  := $(shell uname -s)
-ifeq ($(UNAME), Linux)
- 	TFLAGS = -lpthread -pthread -lrt -lm -lsubunit
+TEST_SRC = $(wildcard ./tests/*.c)
+TEST_OBJ2 = $(patsubst ./tests/%.c, ./tests/%.o, $(TEST_SRC))
+
+ifeq ($(shell uname -s),Linux)
+	TEST_FLAGS += -lsubunit -lgcov -lrt
 endif
-ifeq ($(UNAME), Darwin)
-	TFLAGS = -lcheck
+
+all: clean s21_matrix.a test gcov_report
+
+test.a: $(TEST_OBJ2)
+	ar r test.a $^
+
+s21_matrix.a: $(OBJ)
+	ar rc s21_matrix.a $^
+	ranlib s21_matrix.a
+	rm -rf *.o
+
+test: s21_matrix.a test.a
+	$(CC) test.a s21_matrix.a $(TEST_FLAGS) -o test.out
+	./test.out
+
+
+test2: s21_matrix.a test.a
+	$(CC) $(FLAGS) $(SRC) -o test.out
+	./test.out
+
+gcov_report: clean
+	$(CC) $(FLAGS) -fprofile-arcs -ftest-coverage $(TEST_SRC) $(SRC) -o test.out $(TEST_FLAGS)
+	./test.out
+	lcov -t "s21_matrix.a" -o s21_matrix.a.info -c -d .
+	lcov --extract s21_matrix.a.info -o filtered.info
+	genhtml -o gcov_report filtered.info
+	open gcov_report/index.html
+	rm -rf *.gcno *.gcda
+
+style_fix:
+	clang-format -style=Google -i $(SRC) */*.c */*.h
+
+style:
+	clang-format -style=Google -n $(SRC) */*.c */*.h
+
+rebuild: clean all
+
+testforleaks: s21_matrix.a test.a 
+	$(CC) $(FLAGS) test.a s21_matrix.a $(TEST_FLAGS) -o test.out
+
+leaks: testforleaks
+ifeq ($(shell uname -s), Linux)
+	valgrind --leak-check=yes  ./test.out
+else
+	leaks --atExit -- ./test.out
 endif
-####################################################
 
-
- all: clean s21_matrix.a
-
-
-####### тестирование с библеотекой CHECK #######
-
-check.c: s21_matrix.a
-	$(CH) auto_test/s21_matrix_test.check > $@
-	clang-format -i check.c
-	
-
-test: 
-	$(CC) $(TFLAGS) $(LIB)  check.c  -o test
-	 ./test
-	 $(RM) test
-################################################
-
-
-### тестирование с помощью файла .с ###
-old_test: s21_matrix.a 
-	$(CC) $(CFLAGS) $(TEST) $<  -o $@
-	./old_test
-#######################################
-
-
-#### компиляция статической библиотеки ####
-s21_matrix.a:
-	ar rcs $@ $<
-	ranlib $@
-	rm $< 
-	
-###########################################
-
-
-##################################GCOV_REPORT#####################################
-gcov_report: s21_matrix.a check.c
-	$(CC) $(CFLAGS) --coverage $(LIB)  check.c  $(TFLAGS) -lm -o gcov_test 
-	
-
-	./gcov_test
-	lcov -t "test" -o test_report.info -c -d .
-	genhtml -o report test_report.info
-	rm -rf *.o *.a  *.gch *.gcno test  gcov_test
-##################################################################################
-
-
-############## полная очистка ################ 
 clean:
-	$(RM) old_test test s21_matrix.a  *.gcda  *.gch *.gcno report test_report.info ret.txt 
-
-clean_1:
-	$(RM) old_test  test s21_matrix.a *.gcda ret.txt 
-##############################################
-
-############# ШПОРА ПО СОКРАЩЕНИЯМ ###################
-# $@ - имя цели(целевого файла)                      #
-# $< - имя первой зависимости(после двоеточия)       #
-# $^ - имена всех зависимостей в цели (через пробел) #
-######################################################
+	rm -rf *.o *.a check.c ./tests/*.o ./tests/*.a test.out *.gcno *.gcda gcov_report *.info algebra/*.o comparison/*.o creation/*.o operations/*.o transformations/*.o utils/*.o
